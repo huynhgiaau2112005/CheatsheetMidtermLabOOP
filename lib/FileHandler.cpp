@@ -2,7 +2,7 @@
 
 void reformatDataLine(string& line)
 {
-    for (int i = 0; i < line.size() - 1; i++)
+    for (int i = 0; i < line.size() - 1; )
     {
         if (line[i] == '"')
         {
