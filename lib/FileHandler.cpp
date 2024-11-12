@@ -29,6 +29,41 @@ void reformatDataLine(string& line)
     line.back() = '\n';
 }
 
+void reformatDataLine2(string& line)
+{
+    int open = false;
+    for (int i = 0; i < line.size(); i++)
+    {
+        if (open == false)
+        {
+            if (line[i] == ',')
+                line[i] = '\n';
+            else if (line[i] == '\"')
+            {
+                line.erase(i, 1);
+                open = true;
+            }
+        }
+        else
+        {
+            if (line[i] == '\"')
+            {
+                line.erase(i, 1);
+                if (i < line.size())
+                {
+                    if (line[i] == '\"')
+                        continue;
+                    else if (line[i] == ',')
+                    {
+                        line[i] = '\n';
+                        open = false;
+                    }
+                }
+            }
+        }
+    }
+}
+
 vector<University> readFile(const string& fileName)
 {
     ifstream fileStream(fileName.c_str());
@@ -54,7 +89,7 @@ vector<University> readFile(const string& fileName)
     while (!fileStream.eof())
     {
         getline(fileStream, line);
-        reformatDataLine(line);
+        reformatDataLine2(line);
 
         stringstream lineStream (line);
 
